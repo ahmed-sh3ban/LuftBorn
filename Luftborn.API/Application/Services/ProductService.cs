@@ -15,7 +15,7 @@ public class ProductService : IProductService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public ProductService(IProductRepository productRepository, IMapper mapper,IUnitOfWork unitOfWork)
+    public ProductService(IProductRepository productRepository, IMapper mapper, IUnitOfWork unitOfWork)
     {
         _productRepository = productRepository;
         _unitOfWork = unitOfWork;
@@ -29,12 +29,21 @@ public class ProductService : IProductService
         return mappedProductsList;
     }
 
-    public async Task<UnitResult<Error>> NewProduct(ProductDTO productDTO)
+    public async Task<Result<ProductDTO, Error>> GetProductById(Guid id)
+    {
+        var product = await _productRepository.GetProductById(id);
+        if (product == null)
+            return Errors.General.NotFound("product");
+        var mappedProduct = _mapper.Map<ProductDTO>(product);
+        return mappedProduct;
+    }
+
+    public async Task<Result<Guid, Error>>  NewProduct(ProductDTO productDTO)
     {
         var product = _mapper.Map<Product>(productDTO);
         await _productRepository.NewProduct(product);
         await _unitOfWork.SaveAsync();
-        return UnitResult.Success<Error>();
+        return  product.Id;
     }
 
     public async Task<UnitResult<Error>> UpdateAProduct(ProductDTO productDTO)

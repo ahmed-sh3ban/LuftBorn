@@ -1,0 +1,10 @@
+body{
+  height: 100vh;
+}
+.form-btn
+{
+  width:200px;
+  height: 35px;
+  font-size: 15px;
+  background-color: #001529;
+}

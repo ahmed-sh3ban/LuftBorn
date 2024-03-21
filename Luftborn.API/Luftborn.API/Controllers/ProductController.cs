@@ -27,6 +27,19 @@ public class ProductController : ApiControllerBase
         return Ok(result.Value);
     }
 
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(List<ProductDTO>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetProductById(Guid id)
+    {
+        var result = await _productService.GetProductById(id);
+        if (result.IsFailure)
+        {
+            return Error(result.Error);
+        }
+
+        return Ok(result.Value);
+    }
+
     [HttpPost]
     [ProducesResponseType(typeof(List<ProductDTO>), StatusCodes.Status200OK)]
     public async Task<IActionResult> AddNewProduct([FromBody] ProductDTO product)
@@ -37,7 +50,7 @@ public class ProductController : ApiControllerBase
             return Error(result.Error);
         }
 
-        return Ok(result.IsSuccess);
+        return Ok(result.Value);
     }
 
     [HttpPut]
@@ -53,7 +66,7 @@ public class ProductController : ApiControllerBase
         return Ok(result.IsSuccess);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteProduct(Guid id)
     {

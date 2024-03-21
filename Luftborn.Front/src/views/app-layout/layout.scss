@@ -1,0 +1,32 @@
+.page-layout {
+  height: 100vh;
+  .layout-header {
+    display: flex;
+    align-items: center;
+    .title {
+      color: white;
+      font-size: 35px;
+      font-weight: bold;
+    }
+  }
+  .layout-body {
+    .side-bar {
+      width: 200px;
+      .side-bar-menu {
+        height: 100%;
+        border-right: 0;
+      }
+    }
+
+    .page-content {
+      padding: 0 24px 24px;
+      .bread-crumb {
+        margin: 16px 0;
+      }
+      .content{
+        padding: 24px;
+        margin: 0px;
+      }
+    }
+  }
+}
